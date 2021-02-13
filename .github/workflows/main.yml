@@ -11,6 +11,7 @@ env:
   CAMINHO_PUBLISH: app
   NOME_ARTEFATO: ANPAdmin
   NOME_WEBAPP_AZURE: anp-crm-admin
+  NOME_GRUPO_RECURSOS: anp-github-actions
   SLOT_HOMOLOG_NAME: homolog 
 
 jobs:
@@ -53,3 +54,8 @@ jobs:
           slot-name: ${{ env.SLOT_HOMOLOG_NAME }}
           app-name: ${{ env.NOME_WEBAPP_AZURE }}
           package: ${{ env.CAMINHO_PUBLISH }}
+    
+      - name: Swap Slots Dev to Prod
+        uses: Azure/cli@1.0.4
+        with:
+          inlineScript: az webapp deployment slot swap -n ${{ env.NOME_WEBAPP_AZURE }} -g "github-actions" -s ${{ env.SLOT_HOMOLOG_NAME }} --target-slot "production"      
