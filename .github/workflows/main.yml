@@ -11,6 +11,7 @@ env:
   CAMINHO_PUBLISH: app
   NOME_ARTEFATO: ANPAdmin
   NOME_WEBAPP_AZURE: anp-crm-admin
+  SLOT_HOMOLOG_NAME: homolog 
 
 jobs:
   build:
@@ -49,5 +50,6 @@ jobs:
       - name: Deployment no Azure App Service
         uses: Azure/webapps-deploy@v2
         with:
+          slot-name: ${{ env.SLOT_HOMOLOG_NAME }}
           app-name: ${{ env.NOME_WEBAPP_AZURE }}
           package: ${{ env.CAMINHO_PUBLISH }}
