@@ -1,0 +1,1 @@
+az ad sp create-for-rbac --name "ANP_GitHubActions_EstrategiasDeployment_Environments" --role contributor --scopes /subscriptions/ID DA ASSINATURA/resourceGroups/NOME DO GRUPO DE RECURSOS/providers/Microsoft.Web/sites/NOME DO RECURSO --sdk-auth
