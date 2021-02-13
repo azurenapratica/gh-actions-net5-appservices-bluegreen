@@ -11,7 +11,7 @@ env:
   CAMINHO_PUBLISH: app
   NOME_ARTEFATO: ANPAdmin
 
- jobs:
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
