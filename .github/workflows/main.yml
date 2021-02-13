@@ -1,0 +1,7 @@
+name: GH Action - Exemplo App Services Slots + Blue Green Deployment
+
+on:
+ push:
+  branches: 
+   - master
+ workflow_dispatch:
