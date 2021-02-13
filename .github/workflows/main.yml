@@ -5,3 +5,27 @@ on:
   branches: 
    - master
  workflow_dispatch:
+
+env:
+  CAMINHO_PROJETO: ./src/ANPAdmin.UI/ANPAdmin.UI.csproj
+  CAMINHO_PUBLISH: app
+  NOME_ARTEFATO: ANPAdmin
+
+ jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Faz Checkout do Código Fonte"
+        uses: actions/checkout@v2
+      
+      - name: "Instala o SDK do .NET"
+        uses: actions/setup-dotnet@v1
+      
+      - name: Build do Projeto
+        run: dotnet publish ${{ env.CAMINHO_PROJETO }} -c Release -o ${{ env.CAMINHO_PUBLISH }}
+        
+      - name: Upload da Publicação como Artifact
+        uses: actions/upload-artifact@v2.2.2
+        with:
+          name: ${{ env.NOME_ARTEFATO }}
+          path: ${{ env.CAMINHO_PUBLISH }}        
