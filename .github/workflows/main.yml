@@ -33,7 +33,7 @@ jobs:
           name: ${{ env.NOME_ARTEFATO }}
           path: ${{ env.CAMINHO_PUBLISH }}
   
-  deploy:
+  deploy-homolog:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
@@ -54,8 +54,17 @@ jobs:
           slot-name: ${{ env.SLOT_HOMOLOG_NAME }}
           app-name: ${{ env.NOME_WEBAPP_AZURE }}
           package: ${{ env.CAMINHO_PUBLISH }}
-    
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: [deploy-homolog]
+    steps:
+      - name: Login no Azure
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
       - name: Swap Slots Dev to Prod
         uses: Azure/cli@1.0.4
         with:
-          inlineScript: az webapp deployment slot swap -n ${{ env.NOME_WEBAPP_AZURE }} -g "github-actions" -s ${{ env.SLOT_HOMOLOG_NAME }} --target-slot "production"      
+          inlineScript: az webapp deployment slot swap -n ${{ env.NOME_WEBAPP_AZURE }} -g ${{ env.NOME_GRUPO_RECURSOS }} -s ${{ env.SLOT_HOMOLOG_NAME }} --target-slot "production"      
